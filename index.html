@@ -70,12 +70,6 @@ h1 { font-size: 1.8rem; margin: 20px 0 5px; text-align: center; }
 
 .rest-price { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
-.meal-times { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-
-.meal-btn { padding: 8px 18px; background: #1e1e1e; border: 1px solid #333; border-radius: 20px; color: #ccc; cursor: pointer; font-size: 0.85rem; }
-
-.meal-btn.active { background: #2d2d2d; border-color: #20b2aa; color: #20b2aa; }
-
 .count-badge { background: #20b2aa22; color: #20b2aa; border-radius: 20px; padding: 3px 10px; font-size: 0.8rem; margin-left: 8px; }
 
 
@@ -109,18 +103,6 @@ h1 { font-size: 1.8rem; margin: 20px 0 5px; text-align: center; }
 
 <p class="subtitle">문정역 500m 이내 맛집 · 클릭해서 제외/포함</p>
 
-
-
-
-<div class="meal-times">
-
-<button class="meal-btn active" onclick="setMeal('점심')">🌞 점심</button>
-
-<button class="meal-btn" onclick="setMeal('저녁')">🌙 저녁</button>
-
-<button class="meal-btn" onclick="setMeal('아무때나')">🎲 아무때나</button>
-
-</div>
 
 
 
@@ -173,7 +155,7 @@ h1 { font-size: 1.8rem; margin: 20px 0 5px; text-align: center; }
 
 <script>
 
-const restaurants = [{"name": "강촌식당 문정점", "category": "닭갈비", "distance_m": 200, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "우사기소바", "category": "소바/일식", "distance_m": 300, "exit": "3번출구", "price_range": "12,000~16,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29"}, {"name": "흥도식당", "category": "돈카츠", "distance_m": 250, "exit": "3번출구", "price_range": "10,000~14,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9", "kakaoMapUrl": "https://map.kakao.com/link/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9"}, {"name": "꾼돈 숯불갈비 문정역점", "category": "고기/갈비", "distance_m": 150, "exit": "1번출구", "price_range": "13,000~18,000원"}, {"name": "칠성집 갈매기 문정본점", "category": "고기/갈매기살", "distance_m": 200, "exit": "4번출구", "price_range": "17,000원~"}, {"name": "이가네양꼬치 문정직영점", "category": "양꼬치", "distance_m": 200, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "갯벌의조개 문정역점", "category": "조개/해산물", "distance_m": 300, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "일루 퓨전한식뷔페", "category": "한식뷔페", "distance_m": 400, "exit": "3번출구", "price_range": "13,000~15,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98"}, {"name": "종로계림닭도리탕원조 문정점", "category": "닭볶음탕", "distance_m": 350, "exit": "3번출구", "price_range": "12,000~16,000원"}, {"name": "삼꾸미집 문정점", "category": "삼겹살", "distance_m": 400, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "아빠찜 문정역점", "category": "코다리/생선", "distance_m": 300, "exit": "1번출구", "price_range": "13,000원~"}, {"name": "골목떡볶이", "category": "분식", "distance_m": 450, "exit": "2번출구", "price_range": "4,000~8,000원"}, {"name": "하늘빛우렁쌈밥 문정점", "category": "한식/쌈밥", "distance_m": 400, "exit": "2번출구", "price_range": "10,000~13,000원"}, {"name": "바다생협 대광어 송파본점", "category": "회/해산물", "distance_m": 350, "exit": "4번출구", "price_range": "20,000원~"}, {"name": "툇마루밥상", "category": "한정식", "distance_m": 500, "exit": "3번출구", "price_range": "15,000~20,000원"}];
+const restaurants = [{"name": "강촌식당 문정점", "category": "닭갈비", "distance_m": 200, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "우사기소바", "category": "소바/일식", "distance_m": 300, "exit": "3번출구", "price_range": "12,000~16,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29"}, {"name": "흥도식당", "category": "돈카츠", "distance_m": 250, "exit": "3번출구", "price_range": "10,000~14,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9", "kakaoMapUrl": "https://map.kakao.com/link/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9"}, {"name": "꾼돈 숯불갈비 문정역점", "category": "고기/갈비", "distance_m": 150, "exit": "1번출구", "price_range": "13,000~18,000원"}, {"name": "칠성집 갈매기 문정본점", "category": "고기/갈매기살", "distance_m": 200, "exit": "4번출구", "price_range": "17,000원~"}, {"name": "이가네양꼬치 문정직영점", "category": "양꼬치", "distance_m": 200, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "갯벌의조개 문정역점", "category": "조개/해산물", "distance_m": 300, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "일루 퓨전한식뷔페", "category": "한식뷔페", "distance_m": 400, "exit": "3번출구", "price_range": "13,000~15,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98"}, {"name": "종로계림닭도리탕원조 문정점", "category": "닭볶음탕", "distance_m": 350, "exit": "3번출구", "price_range": "12,000~16,000원"}, {"name": "삼꾸미집 문정점", "category": "삼겹살", "distance_m": 400, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "아빠찜 문정역점", "category": "코다리/생선", "distance_m": 300, "exit": "1번출구", "price_range": "13,000원~"}, {"name": "골목떡볶이", "category": "분식", "distance_m": 450, "exit": "2번출구", "price_range": "4,000~8,000원"}, {"name": "하늘빛우렁쌈밥 문정점", "category": "한식/쌈밥", "distance_m": 400, "exit": "2번출구", "price_range": "10,000~13,000원"}, {"name": "바다생협 대광어 송파본점", "category": "회/해산물", "distance_m": 350, "exit": "4번출구", "price_range": "20,000원~"}, {"name": "툇마루밥상", "category": "한정식", "distance_m": 500, "exit": "3번출구", "price_range": "15,000~20,000원"}, {"name": "청년38국수", "category": "국수/칼국수", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%B2%AD%EB%85%8438%EA%B5%AD%EC%88%98%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%B2%AD%EB%85%8438%EA%B5%AD%EC%88%98%20%EB%AC%B8%EC%A0%95"}, {"name": "류창희국수 문정역점", "category": "국수/칼국수", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%A5%98%EC%B0%BD%ED%9D%AC%EA%B5%AD%EC%88%98%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%A5%98%EC%B0%BD%ED%9D%AC%EA%B5%AD%EC%88%98%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "지인고기", "category": "고기/구이", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%A7%80%EC%9D%B8%EA%B3%A0%EA%B8%B0%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%A7%80%EC%9D%B8%EA%B3%A0%EA%B8%B0%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "채원일식", "category": "일식/초밥", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%B1%84%EC%9B%90%EC%9D%BC%EC%8B%9D%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%B1%84%EC%9B%90%EC%9D%BC%EC%8B%9D%20%EB%AC%B8%EC%A0%95"}, {"name": "만날 한식뷔페", "category": "한식뷔페", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%A7%8C%EB%82%A0%20%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%A7%8C%EB%82%A0%20%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98%20%EB%AC%B8%EC%A0%95"}, {"name": "삼산회관 문정점", "category": "삼겹살", "distance_m": 350, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%82%BC%EC%82%B0%ED%9A%8C%EA%B4%80%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%82%BC%EC%82%B0%ED%9A%8C%EA%B4%80%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "돈블랑 문정역점", "category": "고기/찌개", "distance_m": 400, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%8F%88%EB%B8%94%EB%9E%91%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%8F%88%EB%B8%94%EB%9E%91%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "쿠치나디까사", "category": "이탈리안", "distance_m": 400, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%BF%A0%EC%B9%98%EB%82%98%EB%94%94%EA%B9%8C%EC%82%AC%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%BF%A0%EC%B9%98%EB%82%98%EB%94%94%EA%B9%8C%EC%82%AC%20%EB%AC%B8%EC%A0%95"}, {"name": "이태리부대찌개", "category": "부대찌개", "distance_m": 400, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%9D%B4%ED%83%9C%EB%A6%AC%EB%B6%80%EB%8C%80%EC%B0%8C%EA%B0%9C%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%9D%B4%ED%83%9C%EB%A6%AC%EB%B6%80%EB%8C%80%EC%B0%8C%EA%B0%9C%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "오봉집 문정점", "category": "낙지볶음", "distance_m": 250, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%98%A4%EB%B4%89%EC%A7%91%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%98%A4%EB%B4%89%EC%A7%91%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "온달토종순대국", "category": "순대국밥", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%98%A8%EB%8B%AC%ED%86%A0%EC%A2%85%EC%88%9C%EB%8C%80%EA%B5%AD%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%98%A8%EB%8B%AC%ED%86%A0%EC%A2%85%EC%88%9C%EB%8C%80%EA%B5%AD%20%EB%AC%B8%EC%A0%95"}, {"name": "란짠타부리 문정역점", "category": "태국음식", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%9E%80%EC%A7%A0%ED%83%80%EB%B6%80%EB%A6%AC%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%9E%80%EC%A7%A0%ED%83%80%EB%B6%80%EB%A6%AC%20%EB%AC%B8%EC%A0%95%EC%97%AD%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "오복식당", "category": "한정식", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EC%98%A4%EB%B3%B5%EC%8B%9D%EB%8B%B9%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%98%A4%EB%B3%B5%EC%8B%9D%EB%8B%B9%20%EB%AC%B8%EC%A0%95"}, {"name": "문정돈", "category": "삼겹살", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%AC%B8%EC%A0%95%EB%8F%88%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%AC%B8%EC%A0%95%EB%8F%88%20%EB%AC%B8%EC%A0%95"}, {"name": "미도인 문정법조타운점", "category": "파스타", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%AF%B8%EB%8F%84%EC%9D%B8%20%EB%AC%B8%EC%A0%95%EB%B2%95%EC%A1%B0%ED%83%80%EC%9A%B4%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%AF%B8%EB%8F%84%EC%9D%B8%20%EB%AC%B8%EC%A0%95%EB%B2%95%EC%A1%B0%ED%83%80%EC%9A%B4%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "마산아구찜탕", "category": "아귀찜", "distance_m": 200, "exit": "3번출구", "price_range": "-", "naverMapUrl": "https://map.naver.com/v5/search/%EB%A7%88%EC%82%B0%EC%95%84%EA%B5%AC%EC%B0%9C%ED%83%95%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%A7%88%EC%82%B0%EC%95%84%EA%B5%AC%EC%B0%9C%ED%83%95%20%EB%AC%B8%EC%A0%95"}, {"name": "구십이", "category": "생선구이", "distance_m": 100, "exit": "3번출구", "price_range": "9,000~13,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EA%B5%AC%EC%8B%AD%EC%9D%B4%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EA%B5%AC%EC%8B%AD%EC%9D%B4%20%EB%AC%B8%EC%A0%95"}, {"name": "행복한순정감자탕", "category": "감자탕/해장국", "distance_m": 100, "exit": "3번출구", "price_range": "9,000~12,000원", "naverMapUrl": "https://map.naver.com/v5/search/%ED%96%89%EB%B3%B5%ED%95%9C%EC%88%9C%EC%A0%95%EA%B0%90%EC%9E%90%ED%83%95%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%ED%96%89%EB%B3%B5%ED%95%9C%EC%88%9C%EC%A0%95%EA%B0%90%EC%9E%90%ED%83%95%20%EB%AC%B8%EC%A0%95"}, {"name": "올라포케 문정본점", "category": "포케/샐러드", "distance_m": 100, "exit": "3번출구", "price_range": "13,000~15,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%98%AC%EB%9D%BC%ED%8F%AC%EC%BC%80%20%EB%AC%B8%EC%A0%95%EB%B3%B8%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%98%AC%EB%9D%BC%ED%8F%AC%EC%BC%80%20%EB%AC%B8%EC%A0%95%EB%B3%B8%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "유미카츠 문정점", "category": "돈까스", "distance_m": 100, "exit": "3번출구", "price_range": "9,900~13,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%9C%A0%EB%AF%B8%EC%B9%B4%EC%B8%A0%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%9C%A0%EB%AF%B8%EC%B9%B4%EC%B8%A0%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "한오름", "category": "백반/한식", "distance_m": 100, "exit": "3번출구", "price_range": "9,000~12,000원", "naverMapUrl": "https://map.naver.com/v5/search/%ED%95%9C%EC%98%A4%EB%A6%84%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%ED%95%9C%EC%98%A4%EB%A6%84%20%EB%AC%B8%EC%A0%95"}, {"name": "신기소", "category": "돈까스", "distance_m": 100, "exit": "3번출구", "price_range": "12,000~15,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%8B%A0%EA%B8%B0%EC%86%8C%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%8B%A0%EA%B8%B0%EC%86%8C%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "문정겹살", "category": "삼겹살/제육", "distance_m": 100, "exit": "3번출구", "price_range": "10,000~13,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EB%AC%B8%EC%A0%95%EA%B2%B9%EC%82%B4%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%AC%B8%EC%A0%95%EA%B2%B9%EC%82%B4%20%EB%AC%B8%EC%A0%95"}, {"name": "산척동수제비 문정점", "category": "수제비", "distance_m": 100, "exit": "3번출구", "price_range": "9,000~12,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%82%B0%EC%B2%99%EB%8F%99%EC%88%98%EC%A0%9C%EB%B9%84%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%82%B0%EC%B2%99%EB%8F%99%EC%88%98%EC%A0%9C%EB%B9%84%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "미분당 문정점", "category": "쌀국수", "distance_m": 150, "exit": "4번출구", "price_range": "10,000~13,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EB%AF%B8%EB%B6%84%EB%8B%B9%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%AF%B8%EB%B6%84%EB%8B%B9%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "나무젓가락 문정점", "category": "마제소바", "distance_m": 250, "exit": "3번출구", "price_range": "12,000~14,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EB%82%98%EB%AC%B4%EC%A0%93%EA%B0%80%EB%9D%BD%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%82%98%EB%AC%B4%EC%A0%93%EA%B0%80%EB%9D%BD%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95"}, {"name": "영미씨", "category": "생선구이", "distance_m": 250, "exit": "3번출구", "price_range": "12,000~15,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%98%81%EB%AF%B8%EC%94%A8%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%98%81%EB%AF%B8%EC%94%A8%20%EB%AC%B8%EC%A0%95"}, {"name": "잇쇼니", "category": "일식/정식", "distance_m": 250, "exit": "3번출구", "price_range": "11,000~15,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%9E%87%EC%87%BC%EB%8B%88%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%9E%87%EC%87%BC%EB%8B%88%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "청담초밥 문정점", "category": "초밥", "distance_m": 250, "exit": "3번출구", "price_range": "15,000~25,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%B2%AD%EB%8B%B4%EC%B4%88%EB%B0%A5%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%B2%AD%EB%8B%B4%EC%B4%88%EB%B0%A5%20%EB%AC%B8%EC%A0%95%EC%A0%90%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "정석식당", "category": "한식뷔페", "distance_m": 250, "exit": "3번출구", "price_range": "8,000~9,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%A0%95%EC%84%9D%EC%8B%9D%EB%8B%B9%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%A0%95%EC%84%9D%EC%8B%9D%EB%8B%B9%20%EB%AC%B8%EC%A0%95", "sikdae": true}, {"name": "진짜배기명태촌", "category": "코다리/생선", "distance_m": 300, "exit": "3번출구", "price_range": "12,000~15,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EC%A7%84%EC%A7%9C%EB%B0%B0%EA%B8%B0%EB%AA%85%ED%83%9C%EC%B4%8C%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EC%A7%84%EC%A7%9C%EB%B0%B0%EA%B8%B0%EB%AA%85%ED%83%9C%EC%B4%8C%20%EB%AC%B8%EC%A0%95"}, {"name": "묵골쌈밥", "category": "쌈밥", "distance_m": 300, "exit": "3번출구", "price_range": "10,000~13,000원", "naverMapUrl": "https://map.naver.com/v5/search/%EB%AC%B5%EA%B3%A8%EC%8C%88%EB%B0%A5%20%EB%AC%B8%EC%A0%95", "kakaoMapUrl": "https://map.kakao.com/?q=%EB%AC%B5%EA%B3%A8%EC%8C%88%EB%B0%A5%20%EB%AC%B8%EC%A0%95", "sikdae": true}];
 
 
 
@@ -186,18 +168,53 @@ const categoryEmoji = {
 
 "닭볶음탕": "🍲", "삼겹살": "🥓", "코다리/생선": "🐟", "분식": "🌶️",
 
-"한식/쌈밥": "🌿", "회/해산물": "🐠", "한정식": "🍛"
+"한식/쌈밥": "🌿", "회/해산물": "🐠", "한정식": "🍛",
+
+"중식": "🥟",
+
+"국수/칼국수": "🍜",
+
+"고기/구이": "🥩",
+
+"일식/초밥": "🍣",
+
+"고기/찌개": "🍲",
+
+"이탈리안": "🍝",
+
+"부대찌개": "🍲",
+
+"낙지볶음": "🐙",
+
+"순대국밥": "🥘",
+
+"돼지갈비": "🥩",
+
+"태국음식": "🍛",
+
+"파스타": "🍝",
+
+"아귀찜": "🌊"
+
+,
+
+"생선구이": "🐟", "감자탕/해장국": "🍲", "포케/샐러드": "🥗", "백반/한식": "🍚", "삼겹살/제육": "🥓", "수제비": "🍲", "쌀국수": "🍜", "마제소바": "🍜", "일식/정식": "🍣"
 
 };
 
 
 
 
+const broadCatMap = {"감자탕/해장국": "한식", "고기/갈매기살": "한식", "고기/갈비": "한식", "고기/구이": "한식", "고기/찌개": "한식", "국수/칼국수": "한식", "낙지볶음": "한식", "닭갈비": "한식", "닭볶음탕": "한식", "백반/한식": "한식", "부대찌개": "한식", "분식": "한식", "삼겹살": "한식", "삼겹살/제육": "한식", "생선구이": "한식", "수제비": "한식", "순대국밥": "한식", "쌈밥": "한식", "아귀찜": "한식", "조개/해산물": "한식", "코다리/생선": "한식", "한식/쌈밥": "한식", "한식뷔페": "한식", "한정식": "한식", "회/해산물": "한식", "중식": "중식", "양꼬치": "중식", "이탈리안": "양식", "파스타": "양식", "포케/샐러드": "양식", "돈까스": "일식", "돈카츠": "일식", "마제소바": "일식", "소바/일식": "일식", "일식/정식": "일식", "일식/초밥": "일식", "초밥": "일식", "쌀국수": "동남아", "태국음식": "동남아"};
+
+const broadLabels = {"한식": "🍚", "중식": "🥟", "양식": "🍝", "일식": "🍣", "동남아": "🌴", "기타": "🌏"};
+
+
+
+
 let excluded = new Set();
 
-let activeCategories = new Set();
-
-let currentMeal = "점심";
+let activeBroad = new Set(["한식","중식","양식","일식","동남아","기타"]);
 
 let sikdaeOnly = false;
 
@@ -217,39 +234,14 @@ updateCount(); buildList();
 
 
 
-function setMeal(meal) {
-
-currentMeal = meal;
-
-document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('active'));
-
-event.target.classList.add('active');
-
-updateCount();
-
-}
-
-
-
-
-function getCategories() {
-
-return [...new Set(restaurants.map(r => r.category))];
-
-}
-
-
-
 
 function buildFilters() {
-
-const cats = getCategories();
 
 const div = document.getElementById('filters');
 
 div.innerHTML = '';
 
-// 식권대장 필터 버튼을 맨 앞에 삽입
+// 식권대장 필터 버튼 맨 앞
 
 const sikdaeBtn = document.createElement('button');
 
@@ -263,17 +255,19 @@ sikdaeBtn.onclick = () => toggleSikdaeFilter(sikdaeBtn);
 
 div.appendChild(sikdaeBtn);
 
-cats.forEach(cat => {
+// 5개 넓은 카테고리 버튼
+
+Object.entries(broadLabels).forEach(([broad, emoji]) => {
 
 const btn = document.createElement('button');
 
 btn.className = 'filter-btn active';
 
-btn.textContent = (categoryEmoji[cat] || '🍽️') + ' ' + cat;
+btn.id = 'broad-' + broad;
 
-btn.onclick = () => toggleCategory(cat, btn);
+btn.textContent = emoji + ' ' + broad;
 
-activeCategories.add(cat);
+btn.onclick = () => toggleBroad(broad, btn);
 
 div.appendChild(btn);
 
@@ -284,11 +278,11 @@ div.appendChild(btn);
 
 
 
-function toggleCategory(cat, btn) {
+function toggleBroad(broad, btn) {
 
-if (activeCategories.has(cat)) { activeCategories.delete(cat); btn.classList.remove('active'); }
+if (activeBroad.has(broad)) { activeBroad.delete(broad); btn.classList.remove('active'); }
 
-else { activeCategories.add(cat); btn.classList.add('active'); }
+else { activeBroad.add(broad); btn.classList.add('active'); }
 
 updateCount(); buildList();
 
@@ -299,7 +293,7 @@ updateCount(); buildList();
 
 function getActive() {
 
-return restaurants.filter(r => !excluded.has(r.name) && activeCategories.has(r.category) && (!sikdaeOnly || r.sikdae));
+return restaurants.filter(r => !excluded.has(r.name) && activeBroad.has(broadCatMap[r.category] || '기타') && (!sikdaeOnly || r.sikdae));
 
 }
 
@@ -345,7 +339,7 @@ div.innerHTML = `
 
         <div class="rest-name">${categoryEmoji[r.category] || '🍽️'} ${r.name}</div>
 
-        <div class="rest-cat">${r.category} · ${r.exit}</div>
+        <div class="rest-cat">${broadCatMap[r.category]||'기타'} · ${r.category} · ${r.exit}</div>
 
 ${sikdaeBadge}
 
@@ -425,11 +419,33 @@ document.getElementById('resultName').textContent = final.name;
 
 document.getElementById('resultEmoji').textContent = categoryEmoji[final.category] || '🍽️';
 
-document.getElementById('resultMeta').textContent = final.category + ' · ' + final.exit;
+document.getElementById('resultMeta').textContent = (broadCatMap[final.category]||'기타') + ' · ' + final.category + ' · ' + final.exit;
 
 document.getElementById('resultPrice').textContent = '💰 ' + final.price_range;
 
 document.getElementById('resultDist').textContent = '📍 문정역에서 약 ' + final.distance_m + 'm';
+
+const sikdaeEl = document.getElementById('resultSikdae');
+
+const mapLinksEl = document.getElementById('resultMapLinks');
+
+if (final.sikdae) {
+
+sikdaeEl.style.display = 'inline-block';
+
+mapLinksEl.innerHTML = '<a class="map-link naver" href="' + final.naverMapUrl + '" target="_blank">N 네이버지도</a>'
+
++ '<a class="map-link kakao" href="' + final.kakaoMapUrl + '" target="_blank">K 카카오지도</a>';
+
+mapLinksEl.style.display = 'flex';
+
+      } else {
+
+sikdaeEl.style.display = 'none';
+
+mapLinksEl.style.display = 'none';
+
+      }
 
     }
 
