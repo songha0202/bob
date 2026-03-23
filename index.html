@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>문정 테라타워 뽑기</title>
+
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#0d0d0d;color:#e8e8e8;display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px}
+
+h1{font-size:1.65rem;margin:20px 0 4px;text-align:center}
+
+.sub{color:#555;font-size:.8rem;margin-bottom:18px;text-align:center}
+
+.sec{font-size:.7rem;color:#444;letter-spacing:.07em;margin-bottom:7px;text-align:center}
+
+.fwrap{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:560px;margin-bottom:8px}
+
+.fbtn{padding:5px 12px;border-radius:20px;border:1px solid #2a2a2a;background:#141414;color:#777;cursor:pointer;font-size:.75rem;transition:all .15s}
+
+.fbtn.on{background:#20b2aa;border-color:#20b2aa;color:#fff}
+
+.zbtn{padding:4px 11px;border-radius:20px;border:1px solid #222;background:#111;color:#666;cursor:pointer;font-size:.73rem;transition:all .15s}
+
+.zbtn.on{background:#222;border-color:#444;color:#bbb}
+
+.swrap{display:flex;flex-direction:column;align-items:center;margin:14px 0 18px}
+
+.sbtn{width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2ed4ca,#0d7470);border:none;color:#fff;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 0 28px rgba(32,178,170,.35);transition:transform .1s;line-height:1.5}
+
+.sbtn:hover{transform:scale(1.05)}
+
+.sbtn:active{transform:scale(.96)}
+
+.sbtn.go{animation:pop .4s infinite alternate}
+
+@keyframes pop{from{box-shadow:0 0 22px rgba(32,178,170,.3);transform:scale(1)}to{box-shadow:0 0 55px rgba(32,178,170,.9);transform:scale(1.07)}}
+
+.cnt{font-size:.72rem;color:#444;margin-top:7px}
+
+
+
+
+/* ── 결과 카드 ── */
+
+.card{background:#141414;border:1px solid #222;border-radius:16px;padding:22px 24px 18px;width:100%;max-width:440px;text-align:center;display:none;margin-bottom:18px;position:relative;z-index:1}
+
+.card.show{display:block;animation:up .32s cubic-bezier(.22,.8,.36,1)}
+
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.cemi{font-size:2.6rem;display:block;margin-bottom:8px}
+
+.cname{font-size:1.35rem;font-weight:700;color:#20b2aa;margin-bottom:4px}
+
+.ccat{font-size:.8rem;color:#666}
+
+.caddr{font-size:.77rem;color:#555;margin-top:5px}
+
+.czone{display:inline-block;margin-top:7px;padding:2px 10px;border-radius:20px;font-size:.7rem;background:#1a1a1a;border:1px solid #252525;color:#777}
+
+/* 지도 링크 - 명시적으로 클릭 가능하게 */
+
+.clinks{display:flex;gap:10px;justify-content:center;margin-top:14px}
+
+.clinks a{
+
+display:inline-block;
+
+padding:9px 20px;
+
+border-radius:22px;
+
+font-size:.85rem;
+
+font-weight:700;
+
+text-decoration:none;
+
+border:2px solid;
+
+cursor:pointer;
+
+position:relative;
+
+z-index:10;
+
+transition:opacity .15s,transform .1s;
+
+}
+
+.clinks a:hover{opacity:.8;transform:scale(1.03)}
+
+.clinks a:active{transform:scale(.97)}
+
+.ka{color:#FAE100;border-color:#FAE100;background:#FAE10018}
+
+.na{color:#03C75A;border-color:#03C75A;background:#03C75A18}
+
+.rrbtn{margin-top:10px;background:none;border:1px solid #222;border-radius:20px;color:#444;padding:6px 16px;font-size:.77rem;cursor:pointer;display:block;margin-left:auto;margin-right:auto}
+
+.rrbtn:hover{border-color:#20b2aa;color:#20b2aa}
+
+
+
+
+/* ── 목록 ── */
+
+.lwrap{width:100%;max-width:540px}
+
+.lhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+
+.lhd h2{font-size:.78rem;color:#444}
+
+.zgrp{margin-bottom:12px}
+
+.ztit{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:6px;background:#1a1a1a;border:1px solid #252525;color:#888}
+
+.rrow{background:#111;border-radius:9px;margin-bottom:5px;display:flex;align-items:center;border:1px solid #1c1c1c}
+
+.rrow.off{opacity:.3}
+
+.rlink{flex:1;display:flex;align-items:center;gap:10px;padding:10px 12px;text-decoration:none;color:inherit;min-width:0;cursor:pointer}
+
+.rlink:hover .rname{color:#20b2aa}
+
+.remi{font-size:1.2rem;flex-shrink:0}
+
+.rname{font-size:.87rem;font-weight:600;transition:color .13s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.rcat{font-size:.7rem;color:#555;margin-top:1px}
+
+.rbtns{display:flex;align-items:center;gap:5px;padding:0 10px 0 0;flex-shrink:0}
+
+.mbtn{font-size:.68rem;padding:3px 7px;border-radius:10px;text-decoration:none;border:1px solid;white-space:nowrap;cursor:pointer}
+
+.mbtn:hover{opacity:.7}
+
+.mna{color:#03C75A;border-color:#03C75A55}
+
+.xbtn{font-size:.85rem;cursor:pointer;padding:4px 5px;border-radius:6px;background:none;border:none;color:#333}
+
+.xbtn:hover{color:#ff5555}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🍽️ 문정 테라타워 뽑기</h1>
+
+<p class="sub">테라타워 기준 500m · 총 30곳</p>
+
+
+
+
+<div class="sec">카테고리 필터</div>
+
+<div class="fwrap" id="cf"></div>
+
+<div class="sec" style="margin-top:4px">구역 필터</div>
+
+<div class="fwrap" id="zf" style="margin-bottom:14px"></div>
+
+
+
+
+<div class="swrap">
+
+<button class="sbtn" id="sb" onclick="spin()">🎰<br>뽑기!</button>
+
+<div class="cnt" id="cl"></div>
+
+</div>
+
+
+
+
+<!-- 결과 카드: 링크를 HTML에 정적으로 선언, href만 JS로 교체 -->
+
+<div class="card" id="card">
+
+<span class="cemi"  id="cemi"></span>
+
+<div  class="cname" id="cname"></div>
+
+<div  class="ccat"  id="ccat"></div>
+
+<div  class="caddr" id="caddr"></div>
+
+<div  class="czone" id="czone"></div>
+
+<div class="clinks">
+
+<a id="lka" class="ka" href="#" target="_blank" onclick="openLink(event,'ka')">🗺 카카오맵</a>
+
+<a id="lna" class="na" href="#" target="_blank" onclick="openLink(event,'na')">🗺 네이버지도</a>
+
+</div>
+
+<button class="rrbtn" onclick="spin()">🔄 다시 뽑기</button>
+
+</div>
+
+
+
+
+<div class="lwrap">
+
+<div class="lhd"><h2>📋 목록 &nbsp;<span style="font-weight:400;color:#333">— 🚫 누르면 뽑기 제외</span></h2><span id="ls"></span></div>
+
+<div id="lc"></div>
+
+</div>
+
+
+
+
+<script>
+
+var D=[{"name": "흥도식당", "cat": "돈카츠", "addr": "테라타워1 B동 지하1층 G129호", "zone": "테라타워1"}, {"name": "고추짜장", "cat": "중식", "addr": "테라타워1 A동 지하1층 G161호", "zone": "테라타워1"}, {"name": "청년38국수", "cat": "국수", "addr": "테라타워1 A동 지하1층 G134호", "zone": "테라타워1"}, {"name": "류창희국수 문정역점", "cat": "칼국수", "addr": "테라타워1 A동 1층 112호", "zone": "테라타워1"}, {"name": "지인고기", "cat": "고기", "addr": "테라타워1 A동 지하1층 G183호", "zone": "테라타워1"}, {"name": "채원일식", "cat": "일식/초밥", "addr": "테라타워1 B동 지하1층 175호", "zone": "테라타워1"}, {"name": "만날 한식뷔페", "cat": "한식뷔페", "addr": "테라타워1 A동 2층", "zone": "테라타워1"}, {"name": "삼산회관 문정점", "cat": "삼겹살", "addr": "테라타워1 내", "zone": "테라타워1"}, {"name": "바다생협 대광어", "cat": "회/해산물", "addr": "테라타워2 B동 1층 101호", "zone": "테라타워2"}, {"name": "돈블랑 문정역점", "cat": "고기/찌개", "addr": "테라타워2 B동 1층 129호", "zone": "테라타워2"}, {"name": "쿠치나디까사", "cat": "이탈리안", "addr": "테라타워2 A동 1층 A110호", "zone": "테라타워2"}, {"name": "이태리부대찌개", "cat": "부대찌개", "addr": "테라타워2 2층", "zone": "테라타워2"}, {"name": "칠성집 갈매기 문정본점", "cat": "갈매기살", "addr": "현대지식산업센터 1층", "zone": "법조타운"}, {"name": "이가네양꼬치 문정점", "cat": "양꼬치", "addr": "현대지식산업센터 C동 114호", "zone": "법조타운"}, {"name": "갯벌의조개 문정역점", "cat": "조개요리", "addr": "엠스테이트 C동 123호", "zone": "법조타운"}, {"name": "오봉집 문정점", "cat": "낙지볶음", "addr": "현대지식산업센터 C동 151호", "zone": "법조타운"}, {"name": "꾼돈 숯불갈비", "cat": "갈비", "addr": "송파구 동남로2길 20", "zone": "역 주변"}, {"name": "온달토종순대국", "cat": "순대국밥", "addr": "송파구 동남로2길 인근", "zone": "역 주변"}, {"name": "아빠찜 문정역점", "cat": "코다리/생선", "addr": "송파구 문정로 13", "zone": "역 주변"}, {"name": "진짜진짜돼지갈비", "cat": "돼지갈비", "addr": "송파구 법원로8길 9", "zone": "역 주변"}, {"name": "골목떡볶이", "cat": "분식", "addr": "송파구 문정로1길 33", "zone": "역 주변"}, {"name": "우사기소바 문정점", "cat": "소바/일식", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "강촌식당 문정점", "cat": "닭갈비", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "란짠타부리 문정역점", "cat": "태국음식", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "일루 한식뷔페", "cat": "한식뷔페", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "오복식당", "cat": "한정식", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "문정돈", "cat": "삼겹살", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "미도인 문정법조타운점", "cat": "파스타", "addr": "문정 법조타운 인근", "zone": "역 주변"}, {"name": "하늘빛우렁쌈밥", "cat": "쌈밥", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "마산아구찜탕", "cat": "아귀찜", "addr": "송파구 새말로 132", "zone": "역 주변"}];
+
+var E={"돈카츠": "🥩", "중식": "🥟", "국수": "🍜", "칼국수": "🍜", "고기": "🥩", "일식/초밥": "🍣", "한식뷔페": "🍱", "삼겹살": "🥓", "회/해산물": "🐠", "고기/찌개": "🥩", "이탈리안": "🍝", "부대찌개": "🍲", "갈매기살": "🥩", "양꼬치": "🍢", "조개요리": "🦪", "낙지볶음": "🐙", "갈비": "🥩", "순대국밥": "🍲", "코다리/생선": "🐟", "돼지갈비": "🥩", "분식": "🌶️", "소바/일식": "🍜", "닭갈비": "🍗", "태국음식": "🍛", "한정식": "🍚", "파스타": "🍝", "쌈밥": "🌿", "아귀찜": "🌊"};
+
+function em(c){return E[c]||"🍽️";}
+
+function ku(n){return "https://map.kakao.com/?q="+encodeURIComponent(n+" 문정");}
+
+function nu(n){return "https://map.naver.com/v5/search/"+encodeURIComponent(n+" 문정");}
+
+function g(id){return document.getElementById(id);}
+
+
+
+
+var excl={},aC={},aZ={},tmr=null,curKa="#",curNa="#";
+
+
+
+
+/* 링크 클릭 핸들러 - window.open으로 직접 열기 */
+
+function openLink(ev,type){
+
+ev.preventDefault();
+
+var url=(type==="ka")?curKa:curNa;
+
+if(url==="#")return;
+
+window.open(url,"_blank");
+
+}
+
+
+
+
+function uq(k){var s={},o=[];D.forEach(function(r){if(!s[r[k]]){s[r[k]]=1;o.push(r[k]);}});return o;}
+
+function act(){return D.filter(function(r){return !excl[r.name]&&aC[r.cat]&&aZ[r.zone];});}
+
+function uc(){var n=act().length;g("cl").textContent=n+"곳 중 선택";g("ls").textContent=n+"/"+D.length+"곳";}
+
+
+
+
+function buildCF(){
+
+var div=g("cf");div.innerHTML="";
+
+uq("cat").forEach(function(cat){
+
+aC[cat]=true;
+
+var b=document.createElement("button");b.className="fbtn on";b.textContent=em(cat)+" "+cat;
+
+b.onclick=function(){aC[cat]=!aC[cat];b.className="fbtn"+(aC[cat]?" on":"");uc();buildList();};
+
+div.appendChild(b);
+
+  });
+
+}
+
+function buildZF(){
+
+var div=g("zf");div.innerHTML="";
+
+uq("zone").forEach(function(zone){
+
+aZ[zone]=true;
+
+var b=document.createElement("button");b.className="zbtn on";b.textContent=zone;
+
+b.onclick=function(){aZ[zone]=!aZ[zone];b.className="zbtn"+(aZ[zone]?" on":"");uc();buildList();};
+
+div.appendChild(b);
+
+  });
+
+}
+
+function buildList(){
+
+var lc=g("lc");lc.innerHTML="";
+
+uq("zone").forEach(function(zone){
+
+var items=D.filter(function(r){return r.zone===zone;});
+
+var grp=document.createElement("div");grp.className="zgrp";
+
+var t=document.createElement("div");t.className="ztit";t.textContent=zone+" ("+items.length+"곳)";
+
+grp.appendChild(t);
+
+items.forEach(function(r){
+
+var row=document.createElement("div");
+
+row.className="rrow"+(excl[r.name]?" off":"");
+
+
+
+
+var lk=document.createElement("a");
+
+lk.className="rlink";lk.href=ku(r.name);lk.target="_blank";
+
+var sp=document.createElement("span");sp.className="remi";sp.textContent=em(r.cat);
+
+var tx=document.createElement("div");
+
+var rn=document.createElement("div");rn.className="rname";rn.textContent=r.name;
+
+var rc=document.createElement("div");rc.className="rcat";rc.textContent=r.cat+" · "+r.addr;
+
+tx.appendChild(rn);tx.appendChild(rc);
+
+lk.appendChild(sp);lk.appendChild(tx);
+
+
+
+
+var rb=document.createElement("div");rb.className="rbtns";
+
+var na=document.createElement("a");na.className="mbtn mna";na.textContent="N지도";
+
+na.href=nu(r.name);na.target="_blank";
+
+na.addEventListener("click",function(ev){ev.stopPropagation();});
+
+
+
+
+var xb=document.createElement("button");xb.className="xbtn";
+
+xb.textContent=excl[r.name]?"✅":"🚫";
+
+xb.onclick=function(ev){ev.stopPropagation();excl[r.name]=!excl[r.name];buildList();uc();};
+
+
+
+
+rb.appendChild(na);rb.appendChild(xb);
+
+row.appendChild(lk);row.appendChild(rb);
+
+grp.appendChild(row);
+
+    });
+
+lc.appendChild(grp);
+
+  });
+
+}
+
+
+
+
+function showResult(r){
+
+g("cemi").textContent=em(r.cat);
+
+g("cname").textContent=r.name;
+
+g("ccat").textContent=r.cat;
+
+g("caddr").textContent="📍 "+r.addr;
+
+g("czone").textContent=r.zone;
+
+/* href를 전역 변수에도 저장하고 anchor에도 직접 세팅 */
+
+curKa=ku(r.name); curNa=nu(r.name);
+
+g("lka").href=curKa;
+
+g("lna").href=curNa;
+
+g("card").className="card show";
+
+}
+
+
+
+
+function spin(){
+
+var a=act();
+
+if(!a.length){alert("선택 가능한 음식점이 없어요!");return;}
+
+if(tmr){clearInterval(tmr);tmr=null;}
+
+var sb=g("sb");sb.className="sbtn go";
+
+/* 애니메이션 중 카드 보이기 (링크는 숨김) */
+
+g("lka").style.visibility="hidden";
+
+g("lna").style.visibility="hidden";
+
+g("card").className="card show";
+
+var count=0,total=14+Math.floor(Math.random()*12);
+
+tmr=setInterval(function(){
+
+var r=a[Math.floor(Math.random()*a.length)];
+
+g("cemi").textContent=em(r.cat);
+
+g("cname").textContent=r.name;
+
+g("ccat").textContent="";g("caddr").textContent="";g("czone").textContent="";
+
+count++;
+
+if(count>=total){
+
+clearInterval(tmr);tmr=null;
+
+sb.className="sbtn";
+
+var final=a[Math.floor(Math.random()*a.length)];
+
+showResult(final);
+
+/* 링크 다시 보이기 */
+
+g("lka").style.visibility="visible";
+
+g("lna").style.visibility="visible";
+
+    }
+
+  },70);
+
+}
+
+
+
+
+buildCF();buildZF();buildList();uc();
+
+</script>
+
+</body>
+
+</html>
