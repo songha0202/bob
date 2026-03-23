@@ -8,147 +8,96 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>문정 테라타워 뽑기</title>
+<title>🍽️ 문정역 점심 뽑기</title>
 
 <style>
 
-*{box-sizing:border-box;margin:0;padding:0}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#0d0d0d;color:#e8e8e8;display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px}
+body { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #0f0f0f; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
 
-h1{font-size:1.65rem;margin:20px 0 4px;text-align:center}
+h1 { font-size: 1.8rem; margin: 20px 0 5px; text-align: center; }
 
-.sub{color:#555;font-size:.8rem;margin-bottom:18px;text-align:center}
+.subtitle { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
 
-.sec{font-size:.7rem;color:#444;letter-spacing:.07em;margin-bottom:7px;text-align:center}
+.filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
 
-.fwrap{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:560px;margin-bottom:8px}
+.filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #444; background: #1e1e1e; color: #ccc; cursor: pointer; font-size: 0.82rem; transition: all 0.2s; }
 
-.fbtn{padding:5px 12px;border-radius:20px;border:1px solid #2a2a2a;background:#141414;color:#777;cursor:pointer;font-size:.75rem;transition:all .15s}
+.filter-btn.active { background: #20b2aa; border-color: #20b2aa; color: #fff; }
 
-.fbtn.on{background:#20b2aa;border-color:#20b2aa;color:#fff}
+.spin-btn { width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(135deg, #20b2aa, #1a8c85); border: none; color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; box-shadow: 0 0 30px rgba(32,178,170,0.4); transition: transform 0.1s, box-shadow 0.2s; margin: 10px 0 24px; }
 
-.zbtn{padding:4px 11px;border-radius:20px;border:1px solid #222;background:#111;color:#666;cursor:pointer;font-size:.73rem;transition:all .15s}
+.spin-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(32,178,170,0.6); }
 
-.zbtn.on{background:#222;border-color:#444;color:#bbb}
+.spin-btn:active { transform: scale(0.96); }
 
-.swrap{display:flex;flex-direction:column;align-items:center;margin:14px 0 18px}
+.spin-btn.spinning { animation: pulse 0.5s infinite alternate; }
 
-.sbtn{width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2ed4ca,#0d7470);border:none;color:#fff;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 0 28px rgba(32,178,170,.35);transition:transform .1s;line-height:1.5}
+@keyframes pulse { from { transform: scale(1); box-shadow: 0 0 30px rgba(32,178,170,0.4); } to { transform: scale(1.08); box-shadow: 0 0 60px rgba(32,178,170,0.8); } }
 
-.sbtn:hover{transform:scale(1.05)}
+.result-card { background: #1e1e1e; border: 1px solid #333; border-radius: 16px; padding: 24px 28px; width: 100%; max-width: 420px; text-align: center; display: none; }
 
-.sbtn:active{transform:scale(.96)}
+.result-card.show { display: block; animation: slideUp 0.4s ease; }
 
-.sbtn.go{animation:pop .4s infinite alternate}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes pop{from{box-shadow:0 0 22px rgba(32,178,170,.3);transform:scale(1)}to{box-shadow:0 0 55px rgba(32,178,170,.9);transform:scale(1.07)}}
+.result-emoji { font-size: 3rem; margin-bottom: 8px; }
 
-.cnt{font-size:.72rem;color:#444;margin-top:7px}
+.result-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 6px; color: #20b2aa; }
 
+.result-meta { color: #999; font-size: 0.88rem; margin-bottom: 4px; }
 
+.result-badge { display: inline-block; background: #2a2a2a; border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; color: #aaa; margin-top: 10px; }
 
+.restaurant-list { width: 100%; max-width: 500px; margin-top: 24px; }
 
-/* ── 결과 카드 ── */
+.restaurant-list h2 { font-size: 1rem; color: #888; margin-bottom: 12px; text-align: center; }
 
-.card{background:#141414;border:1px solid #222;border-radius:16px;padding:22px 24px 18px;width:100%;max-width:440px;text-align:center;display:none;margin-bottom:18px;position:relative;z-index:1}
+.rest-item { background: #1a1a1a; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #2a2a2a; cursor: pointer; transition: border-color 0.2s; }
 
-.card.show{display:block;animation:up .32s cubic-bezier(.22,.8,.36,1)}
+.rest-item:hover { border-color: #20b2aa; }
 
-@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.rest-item.excluded { opacity: 0.35; text-decoration: line-through; }
 
-.cemi{font-size:2.6rem;display:block;margin-bottom:8px}
+.rest-left .rest-name { font-size: 0.95rem; font-weight: bold; }
 
-.cname{font-size:1.35rem;font-weight:700;color:#20b2aa;margin-bottom:4px}
+.rest-left .rest-cat { font-size: 0.78rem; color: #888; margin-top: 2px; }
 
-.ccat{font-size:.8rem;color:#666}
+.rest-right { text-align: right; }
 
-.caddr{font-size:.77rem;color:#555;margin-top:5px}
+.rest-dist { font-size: 0.8rem; color: #20b2aa; }
 
-.czone{display:inline-block;margin-top:7px;padding:2px 10px;border-radius:20px;font-size:.7rem;background:#1a1a1a;border:1px solid #252525;color:#777}
+.rest-price { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
-/* 지도 링크 - 명시적으로 클릭 가능하게 */
+.meal-times { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
 
-.clinks{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.meal-btn { padding: 8px 18px; background: #1e1e1e; border: 1px solid #333; border-radius: 20px; color: #ccc; cursor: pointer; font-size: 0.85rem; }
 
-.clinks a{
+.meal-btn.active { background: #2d2d2d; border-color: #20b2aa; color: #20b2aa; }
 
-display:inline-block;
+.count-badge { background: #20b2aa22; color: #20b2aa; border-radius: 20px; padding: 3px 10px; font-size: 0.8rem; margin-left: 8px; }
 
-padding:9px 20px;
 
-border-radius:22px;
 
-font-size:.85rem;
 
-font-weight:700;
+.sikdae-badge { display: inline-block; background: #1a3a3a; border: 1px solid #20b2aa; color: #20b2aa; border-radius: 12px; padding: 2px 8px; font-size: 0.72rem; font-weight: bold; margin-top: 4px; }
 
-text-decoration:none;
+.map-links { display: flex; gap: 6px; margin-top: 6px; }
 
-border:2px solid;
+.map-link { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; text-decoration: none; color: #fff; }
 
-cursor:pointer;
+.map-link.naver { background: #03c75a; }
 
-position:relative;
+.map-link.kakao { background: #ffe000; color: #3a1d1d; }
 
-z-index:10;
+.map-link:hover { opacity: 0.85; }
 
-transition:opacity .15s,transform .1s;
+.filter-divider { width: 1px; background: #333; height: 24px; align-self: center; }
 
-}
+.filter-btn.sikdae-filter { border-color: #20b2aa; color: #20b2aa; }
 
-.clinks a:hover{opacity:.8;transform:scale(1.03)}
-
-.clinks a:active{transform:scale(.97)}
-
-.ka{color:#FAE100;border-color:#FAE100;background:#FAE10018}
-
-.na{color:#03C75A;border-color:#03C75A;background:#03C75A18}
-
-.rrbtn{margin-top:10px;background:none;border:1px solid #222;border-radius:20px;color:#444;padding:6px 16px;font-size:.77rem;cursor:pointer;display:block;margin-left:auto;margin-right:auto}
-
-.rrbtn:hover{border-color:#20b2aa;color:#20b2aa}
-
-
-
-
-/* ── 목록 ── */
-
-.lwrap{width:100%;max-width:540px}
-
-.lhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
-
-.lhd h2{font-size:.78rem;color:#444}
-
-.zgrp{margin-bottom:12px}
-
-.ztit{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:6px;background:#1a1a1a;border:1px solid #252525;color:#888}
-
-.rrow{background:#111;border-radius:9px;margin-bottom:5px;display:flex;align-items:center;border:1px solid #1c1c1c}
-
-.rrow.off{opacity:.3}
-
-.rlink{flex:1;display:flex;align-items:center;gap:10px;padding:10px 12px;text-decoration:none;color:inherit;min-width:0;cursor:pointer}
-
-.rlink:hover .rname{color:#20b2aa}
-
-.remi{font-size:1.2rem;flex-shrink:0}
-
-.rname{font-size:.87rem;font-weight:600;transition:color .13s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-.rcat{font-size:.7rem;color:#555;margin-top:1px}
-
-.rbtns{display:flex;align-items:center;gap:5px;padding:0 10px 0 0;flex-shrink:0}
-
-.mbtn{font-size:.68rem;padding:3px 7px;border-radius:10px;text-decoration:none;border:1px solid;white-space:nowrap;cursor:pointer}
-
-.mbtn:hover{opacity:.7}
-
-.mna{color:#03C75A;border-color:#03C75A55}
-
-.xbtn{font-size:.85rem;cursor:pointer;padding:4px 5px;border-radius:6px;background:none;border:none;color:#333}
-
-.xbtn:hover{color:#ff5555}
+.filter-btn.sikdae-filter.active { background: #20b2aa; border-color: #20b2aa; color: #000; font-weight: bold; }
 
 </style>
 
@@ -156,69 +105,66 @@ transition:opacity .15s,transform .1s;
 
 <body>
 
-<h1>🍽️ 문정 테라타워 뽑기</h1>
+<h1>🍽️ 문정역 점심 뽑기</h1>
 
-<p class="sub">테라타워 기준 500m · 총 30곳</p>
-
-
-
-
-<div class="sec">카테고리 필터</div>
-
-<div class="fwrap" id="cf"></div>
-
-<div class="sec" style="margin-top:4px">구역 필터</div>
-
-<div class="fwrap" id="zf" style="margin-bottom:14px"></div>
+<p class="subtitle">문정역 500m 이내 맛집 · 클릭해서 제외/포함</p>
 
 
 
 
-<div class="swrap">
+<div class="meal-times">
 
-<button class="sbtn" id="sb" onclick="spin()">🎰<br>뽑기!</button>
+<button class="meal-btn active" onclick="setMeal('점심')">🌞 점심</button>
 
-<div class="cnt" id="cl"></div>
+<button class="meal-btn" onclick="setMeal('저녁')">🌙 저녁</button>
+
+<button class="meal-btn" onclick="setMeal('아무때나')">🎲 아무때나</button>
 
 </div>
 
 
 
 
-<!-- 결과 카드: 링크를 HTML에 정적으로 선언, href만 JS로 교체 -->
+<div class="filters" id="filters"></div>
 
-<div class="card" id="card">
 
-<span class="cemi"  id="cemi"></span>
 
-<div  class="cname" id="cname"></div>
 
-<div  class="ccat"  id="ccat"></div>
+<button class="spin-btn" id="spinBtn" onclick="spin()">
 
-<div  class="caddr" id="caddr"></div>
+  🎰<br>뽑기!<br><span id="countBadge" style="font-size:0.7rem; opacity:0.7"></span>
 
-<div  class="czone" id="czone"></div>
+</button>
 
-<div class="clinks">
 
-<a id="lka" class="ka" href="#" target="_blank" onclick="openLink(event,'ka')">🗺 카카오맵</a>
 
-<a id="lna" class="na" href="#" target="_blank" onclick="openLink(event,'na')">🗺 네이버지도</a>
+
+<div class="result-card" id="resultCard">
+
+<div class="result-emoji" id="resultEmoji">🍜</div>
+
+<div class="result-name" id="resultName"></div>
+
+<div class="result-meta" id="resultMeta"></div>
+
+<div class="result-meta" id="resultPrice"></div>
+
+<div class="result-badge" id="resultDist"></div>
+
+<div id="resultSikdae" class="sikdae-badge" style="display:none; margin-top:10px;">🎫 식권대장 사용 가능</div>
+
+<div id="resultMapLinks" class="map-links" style="display:none; justify-content:center; margin-top:8px;"></div>
 
 </div>
 
-<button class="rrbtn" onclick="spin()">🔄 다시 뽑기</button>
-
-</div>
 
 
 
+<div class="restaurant-list">
 
-<div class="lwrap">
+<h2>📋 목록 (클릭하면 제외/포함)</h2>
 
-<div class="lhd"><h2>📋 목록 &nbsp;<span style="font-weight:400;color:#333">— 🚫 누르면 뽑기 제외</span></h2><span id="ls"></span></div>
-
-<div id="lc"></div>
+<div id="listContainer"></div>
 
 </div>
 
@@ -227,159 +173,109 @@ transition:opacity .15s,transform .1s;
 
 <script>
 
-var D=[{"name": "흥도식당", "cat": "돈카츠", "addr": "테라타워1 B동 지하1층 G129호", "zone": "테라타워1"}, {"name": "고추짜장", "cat": "중식", "addr": "테라타워1 A동 지하1층 G161호", "zone": "테라타워1"}, {"name": "청년38국수", "cat": "국수", "addr": "테라타워1 A동 지하1층 G134호", "zone": "테라타워1"}, {"name": "류창희국수 문정역점", "cat": "칼국수", "addr": "테라타워1 A동 1층 112호", "zone": "테라타워1"}, {"name": "지인고기", "cat": "고기", "addr": "테라타워1 A동 지하1층 G183호", "zone": "테라타워1"}, {"name": "채원일식", "cat": "일식/초밥", "addr": "테라타워1 B동 지하1층 175호", "zone": "테라타워1"}, {"name": "만날 한식뷔페", "cat": "한식뷔페", "addr": "테라타워1 A동 2층", "zone": "테라타워1"}, {"name": "삼산회관 문정점", "cat": "삼겹살", "addr": "테라타워1 내", "zone": "테라타워1"}, {"name": "바다생협 대광어", "cat": "회/해산물", "addr": "테라타워2 B동 1층 101호", "zone": "테라타워2"}, {"name": "돈블랑 문정역점", "cat": "고기/찌개", "addr": "테라타워2 B동 1층 129호", "zone": "테라타워2"}, {"name": "쿠치나디까사", "cat": "이탈리안", "addr": "테라타워2 A동 1층 A110호", "zone": "테라타워2"}, {"name": "이태리부대찌개", "cat": "부대찌개", "addr": "테라타워2 2층", "zone": "테라타워2"}, {"name": "칠성집 갈매기 문정본점", "cat": "갈매기살", "addr": "현대지식산업센터 1층", "zone": "법조타운"}, {"name": "이가네양꼬치 문정점", "cat": "양꼬치", "addr": "현대지식산업센터 C동 114호", "zone": "법조타운"}, {"name": "갯벌의조개 문정역점", "cat": "조개요리", "addr": "엠스테이트 C동 123호", "zone": "법조타운"}, {"name": "오봉집 문정점", "cat": "낙지볶음", "addr": "현대지식산업센터 C동 151호", "zone": "법조타운"}, {"name": "꾼돈 숯불갈비", "cat": "갈비", "addr": "송파구 동남로2길 20", "zone": "역 주변"}, {"name": "온달토종순대국", "cat": "순대국밥", "addr": "송파구 동남로2길 인근", "zone": "역 주변"}, {"name": "아빠찜 문정역점", "cat": "코다리/생선", "addr": "송파구 문정로 13", "zone": "역 주변"}, {"name": "진짜진짜돼지갈비", "cat": "돼지갈비", "addr": "송파구 법원로8길 9", "zone": "역 주변"}, {"name": "골목떡볶이", "cat": "분식", "addr": "송파구 문정로1길 33", "zone": "역 주변"}, {"name": "우사기소바 문정점", "cat": "소바/일식", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "강촌식당 문정점", "cat": "닭갈비", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "란짠타부리 문정역점", "cat": "태국음식", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "일루 한식뷔페", "cat": "한식뷔페", "addr": "문정역 3번출구 인근", "zone": "역 주변"}, {"name": "오복식당", "cat": "한정식", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "문정돈", "cat": "삼겹살", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "미도인 문정법조타운점", "cat": "파스타", "addr": "문정 법조타운 인근", "zone": "역 주변"}, {"name": "하늘빛우렁쌈밥", "cat": "쌈밥", "addr": "문정역 인근", "zone": "역 주변"}, {"name": "마산아구찜탕", "cat": "아귀찜", "addr": "송파구 새말로 132", "zone": "역 주변"}];
-
-var E={"돈카츠": "🥩", "중식": "🥟", "국수": "🍜", "칼국수": "🍜", "고기": "🥩", "일식/초밥": "🍣", "한식뷔페": "🍱", "삼겹살": "🥓", "회/해산물": "🐠", "고기/찌개": "🥩", "이탈리안": "🍝", "부대찌개": "🍲", "갈매기살": "🥩", "양꼬치": "🍢", "조개요리": "🦪", "낙지볶음": "🐙", "갈비": "🥩", "순대국밥": "🍲", "코다리/생선": "🐟", "돼지갈비": "🥩", "분식": "🌶️", "소바/일식": "🍜", "닭갈비": "🍗", "태국음식": "🍛", "한정식": "🍚", "파스타": "🍝", "쌈밥": "🌿", "아귀찜": "🌊"};
-
-function em(c){return E[c]||"🍽️";}
-
-function ku(n){return "https://map.kakao.com/?q="+encodeURIComponent(n+" 문정");}
-
-function nu(n){return "https://map.naver.com/v5/search/"+encodeURIComponent(n+" 문정");}
-
-function g(id){return document.getElementById(id);}
+const restaurants = [{"name": "강촌식당 문정점", "category": "닭갈비", "distance_m": 200, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "우사기소바", "category": "소바/일식", "distance_m": 300, "exit": "3번출구", "price_range": "12,000~16,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9A%B0%EC%82%AC%EA%B8%B0%EC%86%8C%EB%B0%94%28%EB%AC%B8%EC%A0%95%29"}, {"name": "흥도식당", "category": "돈카츠", "distance_m": 250, "exit": "3번출구", "price_range": "10,000~14,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9", "kakaoMapUrl": "https://map.kakao.com/link/search/%ED%9D%A5%EB%8F%84%EC%8B%9D%EB%8B%B9"}, {"name": "꾼돈 숯불갈비 문정역점", "category": "고기/갈비", "distance_m": 150, "exit": "1번출구", "price_range": "13,000~18,000원"}, {"name": "칠성집 갈매기 문정본점", "category": "고기/갈매기살", "distance_m": 200, "exit": "4번출구", "price_range": "17,000원~"}, {"name": "이가네양꼬치 문정직영점", "category": "양꼬치", "distance_m": 200, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "갯벌의조개 문정역점", "category": "조개/해산물", "distance_m": 300, "exit": "4번출구", "price_range": "15,000~25,000원"}, {"name": "일루 퓨전한식뷔페", "category": "한식뷔페", "distance_m": 400, "exit": "3번출구", "price_range": "13,000~15,000원", "sikdae": true, "naverMapUrl": "https://map.naver.com/v5/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98", "kakaoMapUrl": "https://map.kakao.com/link/search/%EC%9D%BC%EB%A3%A8%ED%95%9C%EC%8B%9D%EB%B7%94%ED%8E%98"}, {"name": "종로계림닭도리탕원조 문정점", "category": "닭볶음탕", "distance_m": 350, "exit": "3번출구", "price_range": "12,000~16,000원"}, {"name": "삼꾸미집 문정점", "category": "삼겹살", "distance_m": 400, "exit": "3번출구", "price_range": "12,000~15,000원"}, {"name": "아빠찜 문정역점", "category": "코다리/생선", "distance_m": 300, "exit": "1번출구", "price_range": "13,000원~"}, {"name": "골목떡볶이", "category": "분식", "distance_m": 450, "exit": "2번출구", "price_range": "4,000~8,000원"}, {"name": "하늘빛우렁쌈밥 문정점", "category": "한식/쌈밥", "distance_m": 400, "exit": "2번출구", "price_range": "10,000~13,000원"}, {"name": "바다생협 대광어 송파본점", "category": "회/해산물", "distance_m": 350, "exit": "4번출구", "price_range": "20,000원~"}, {"name": "툇마루밥상", "category": "한정식", "distance_m": 500, "exit": "3번출구", "price_range": "15,000~20,000원"}];
 
 
 
 
-var excl={},aC={},aZ={},tmr=null,curKa="#",curNa="#";
+const categoryEmoji = {
+
+"닭갈비": "🍗", "소바/일식": "🍜", "돈카츠": "🥩", "고기/갈비": "🥩",
+
+"고기/갈매기살": "🥩", "양꼬치": "🍢", "조개/해산물": "🦪", "한식뷔페": "🍱",
+
+"닭볶음탕": "🍲", "삼겹살": "🥓", "코다리/생선": "🐟", "분식": "🌶️",
+
+"한식/쌈밥": "🌿", "회/해산물": "🐠", "한정식": "🍛"
+
+};
 
 
 
 
-/* 링크 클릭 핸들러 - window.open으로 직접 열기 */
+let excluded = new Set();
 
-function openLink(ev,type){
+let activeCategories = new Set();
 
-ev.preventDefault();
+let currentMeal = "점심";
 
-var url=(type==="ka")?curKa:curNa;
+let sikdaeOnly = false;
 
-if(url==="#")return;
 
-window.open(url,"_blank");
+
+
+function toggleSikdaeFilter(btn) {
+
+sikdaeOnly = !sikdaeOnly;
+
+btn.classList.toggle('active', sikdaeOnly);
+
+updateCount(); buildList();
+
+}
+
+
+
+
+function setMeal(meal) {
+
+currentMeal = meal;
+
+document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('active'));
+
+event.target.classList.add('active');
+
+updateCount();
 
 }
 
 
 
 
-function uq(k){var s={},o=[];D.forEach(function(r){if(!s[r[k]]){s[r[k]]=1;o.push(r[k]);}});return o;}
+function getCategories() {
 
-function act(){return D.filter(function(r){return !excl[r.name]&&aC[r.cat]&&aZ[r.zone];});}
-
-function uc(){var n=act().length;g("cl").textContent=n+"곳 중 선택";g("ls").textContent=n+"/"+D.length+"곳";}
-
-
-
-
-function buildCF(){
-
-var div=g("cf");div.innerHTML="";
-
-uq("cat").forEach(function(cat){
-
-aC[cat]=true;
-
-var b=document.createElement("button");b.className="fbtn on";b.textContent=em(cat)+" "+cat;
-
-b.onclick=function(){aC[cat]=!aC[cat];b.className="fbtn"+(aC[cat]?" on":"");uc();buildList();};
-
-div.appendChild(b);
-
-  });
+return [...new Set(restaurants.map(r => r.category))];
 
 }
 
-function buildZF(){
-
-var div=g("zf");div.innerHTML="";
-
-uq("zone").forEach(function(zone){
-
-aZ[zone]=true;
-
-var b=document.createElement("button");b.className="zbtn on";b.textContent=zone;
-
-b.onclick=function(){aZ[zone]=!aZ[zone];b.className="zbtn"+(aZ[zone]?" on":"");uc();buildList();};
-
-div.appendChild(b);
-
-  });
-
-}
-
-function buildList(){
-
-var lc=g("lc");lc.innerHTML="";
-
-uq("zone").forEach(function(zone){
-
-var items=D.filter(function(r){return r.zone===zone;});
-
-var grp=document.createElement("div");grp.className="zgrp";
-
-var t=document.createElement("div");t.className="ztit";t.textContent=zone+" ("+items.length+"곳)";
-
-grp.appendChild(t);
-
-items.forEach(function(r){
-
-var row=document.createElement("div");
-
-row.className="rrow"+(excl[r.name]?" off":"");
 
 
 
+function buildFilters() {
 
-var lk=document.createElement("a");
+const cats = getCategories();
 
-lk.className="rlink";lk.href=ku(r.name);lk.target="_blank";
+const div = document.getElementById('filters');
 
-var sp=document.createElement("span");sp.className="remi";sp.textContent=em(r.cat);
+div.innerHTML = '';
 
-var tx=document.createElement("div");
+// 식권대장 필터 버튼을 맨 앞에 삽입
 
-var rn=document.createElement("div");rn.className="rname";rn.textContent=r.name;
+const sikdaeBtn = document.createElement('button');
 
-var rc=document.createElement("div");rc.className="rcat";rc.textContent=r.cat+" · "+r.addr;
+sikdaeBtn.className = 'filter-btn sikdae-filter';
 
-tx.appendChild(rn);tx.appendChild(rc);
+sikdaeBtn.id = 'sikdaeFilterBtn';
 
-lk.appendChild(sp);lk.appendChild(tx);
+sikdaeBtn.textContent = '🎫 식권대장만';
 
+sikdaeBtn.onclick = () => toggleSikdaeFilter(sikdaeBtn);
 
+div.appendChild(sikdaeBtn);
 
+cats.forEach(cat => {
 
-var rb=document.createElement("div");rb.className="rbtns";
+const btn = document.createElement('button');
 
-var na=document.createElement("a");na.className="mbtn mna";na.textContent="N지도";
+btn.className = 'filter-btn active';
 
-na.href=nu(r.name);na.target="_blank";
+btn.textContent = (categoryEmoji[cat] || '🍽️') + ' ' + cat;
 
-na.addEventListener("click",function(ev){ev.stopPropagation();});
+btn.onclick = () => toggleCategory(cat, btn);
 
+activeCategories.add(cat);
 
-
-
-var xb=document.createElement("button");xb.className="xbtn";
-
-xb.textContent=excl[r.name]?"✅":"🚫";
-
-xb.onclick=function(ev){ev.stopPropagation();excl[r.name]=!excl[r.name];buildList();uc();};
-
-
-
-
-rb.appendChild(na);rb.appendChild(xb);
-
-row.appendChild(lk);row.appendChild(rb);
-
-grp.appendChild(row);
-
-    });
-
-lc.appendChild(grp);
+div.appendChild(btn);
 
   });
 
@@ -388,91 +284,163 @@ lc.appendChild(grp);
 
 
 
-function showResult(r){
+function toggleCategory(cat, btn) {
 
-g("cemi").textContent=em(r.cat);
+if (activeCategories.has(cat)) { activeCategories.delete(cat); btn.classList.remove('active'); }
 
-g("cname").textContent=r.name;
+else { activeCategories.add(cat); btn.classList.add('active'); }
 
-g("ccat").textContent=r.cat;
-
-g("caddr").textContent="📍 "+r.addr;
-
-g("czone").textContent=r.zone;
-
-/* href를 전역 변수에도 저장하고 anchor에도 직접 세팅 */
-
-curKa=ku(r.name); curNa=nu(r.name);
-
-g("lka").href=curKa;
-
-g("lna").href=curNa;
-
-g("card").className="card show";
+updateCount(); buildList();
 
 }
 
 
 
 
-function spin(){
+function getActive() {
 
-var a=act();
+return restaurants.filter(r => !excluded.has(r.name) && activeCategories.has(r.category) && (!sikdaeOnly || r.sikdae));
 
-if(!a.length){alert("선택 가능한 음식점이 없어요!");return;}
+}
 
-if(tmr){clearInterval(tmr);tmr=null;}
 
-var sb=g("sb");sb.className="sbtn go";
 
-/* 애니메이션 중 카드 보이기 (링크는 숨김) */
 
-g("lka").style.visibility="hidden";
+function updateCount() {
 
-g("lna").style.visibility="hidden";
+const n = getActive().length;
 
-g("card").className="card show";
+document.getElementById('countBadge').textContent = n + '곳 중 선택';
 
-var count=0,total=14+Math.floor(Math.random()*12);
+}
 
-tmr=setInterval(function(){
 
-var r=a[Math.floor(Math.random()*a.length)];
 
-g("cemi").textContent=em(r.cat);
 
-g("cname").textContent=r.name;
+function buildList() {
 
-g("ccat").textContent="";g("caddr").textContent="";g("czone").textContent="";
+const container = document.getElementById('listContainer');
+
+container.innerHTML = '';
+
+restaurants.forEach(r => {
+
+const div = document.createElement('div');
+
+div.className = 'rest-item' + (excluded.has(r.name) ? ' excluded' : '') + (sikdaeOnly && !r.sikdae ? ' excluded' : '');
+
+const sikdaeBadge = r.sikdae ? '<span class="sikdae-badge">🎫 식권대장</span>' : '';
+
+const mapLinks = r.sikdae ? `<div class="map-links" onclick="event.stopPropagation()">
+
+      <a class="map-link naver" href="${r.naverMapUrl}" target="_blank">N 네이버</a>
+
+      <a class="map-link kakao" href="${r.kakaoMapUrl}" target="_blank">K 카카오</a>
+
+    </div>` : '';
+
+div.innerHTML = `
+
+      <div class="rest-left">
+
+        <div class="rest-name">${categoryEmoji[r.category] || '🍽️'} ${r.name}</div>
+
+        <div class="rest-cat">${r.category} · ${r.exit}</div>
+
+${sikdaeBadge}
+
+${mapLinks}
+
+      </div>
+
+      <div class="rest-right">
+
+        <div class="rest-dist">${r.distance_m}m</div>
+
+        <div class="rest-price">${r.price_range}</div>
+
+      </div>`;
+
+div.onclick = () => { toggleExclude(r.name); };
+
+container.appendChild(div);
+
+  });
+
+}
+
+
+
+
+function toggleExclude(name) {
+
+if (excluded.has(name)) excluded.delete(name);
+
+else excluded.add(name);
+
+buildList(); updateCount();
+
+}
+
+
+
+
+let spinInterval = null;
+
+function spin() {
+
+const active = getActive();
+
+if (active.length === 0) { alert("선택 가능한 음식점이 없어요! 필터를 조정해보세요."); return; }
+
+const btn = document.getElementById('spinBtn');
+
+btn.classList.add('spinning');
+
+let count = 0;
+
+const total = 15 + Math.floor(Math.random() * 10);
+
+spinInterval = setInterval(() => {
+
+const r = active[Math.floor(Math.random() * active.length)];
+
+document.getElementById('resultName').textContent = r.name;
+
+document.getElementById('resultEmoji').textContent = categoryEmoji[r.category] || '🍽️';
+
+document.getElementById('resultCard').classList.add('show');
 
 count++;
 
-if(count>=total){
+if (count >= total) {
 
-clearInterval(tmr);tmr=null;
+clearInterval(spinInterval);
 
-sb.className="sbtn";
+btn.classList.remove('spinning');
 
-var final=a[Math.floor(Math.random()*a.length)];
+const final = active[Math.floor(Math.random() * active.length)];
 
-showResult(final);
+document.getElementById('resultName').textContent = final.name;
 
-/* 링크 다시 보이기 */
+document.getElementById('resultEmoji').textContent = categoryEmoji[final.category] || '🍽️';
 
-g("lka").style.visibility="visible";
+document.getElementById('resultMeta').textContent = final.category + ' · ' + final.exit;
 
-g("lna").style.visibility="visible";
+document.getElementById('resultPrice').textContent = '💰 ' + final.price_range;
+
+document.getElementById('resultDist').textContent = '📍 문정역에서 약 ' + final.distance_m + 'm';
 
     }
 
-  },70);
+  }, 80);
 
 }
 
 
 
 
-buildCF();buildZF();buildList();uc();
+buildFilters(); buildList(); updateCount();
 
 </script>
 
